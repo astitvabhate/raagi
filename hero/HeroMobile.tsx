@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const images = [
-  "/images/hero-left.jpg",
-  "/images/hero-center.jpg",
-  "/images/hero-right.jpg",
+  "/images/hero-left.JPG",
+  "/images/hero-center.JPG",
+  "/images/hero-right.JPG",
 ];
 
 export default function HeroMobile() {
