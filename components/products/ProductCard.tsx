@@ -59,23 +59,9 @@ export default function ProductCard({ product }: { product: Product }) {
           {product.title}
         </h3>
 
-        {/* RATING (optional, future-proof) */}
-        {product.rating && (
-          <div className="flex items-center gap-1 text-xs text-[#7a3b18]">
-            {Array.from({ length: product.rating }).map((_, i) => (
-              <AiFillStar key={i} />
-            ))}
-            {product.reviewsCount && (
-              <span className="text-black/50">
-                ({product.reviewsCount})
-              </span>
-            )}
-          </div>
-        )}
-
         {/* PRICE */}
         <p className="text-sm font-medium">
-          ₹{product.salePrice ?? product.price}
+          {/* ₹{product.salePrice ??*/} product.price 
         </p>
       </div>
     </div>
