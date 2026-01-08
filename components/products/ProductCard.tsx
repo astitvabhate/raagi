@@ -59,9 +59,10 @@ export default function ProductCard({ product }: { product: Product }) {
           {product.title}
         </h3>
 
+
         {/* PRICE */}
         <p className="text-sm font-medium">
-          {/* ₹{product.salePrice ??*/} product.price 
+          ₹{product.price}
         </p>
       </div>
     </div>

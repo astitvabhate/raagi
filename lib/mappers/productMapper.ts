@@ -16,10 +16,13 @@ export function mapSanityToProduct(p: SanityProduct): Product | null {
     images: p.images,
 
     category: p.category,
-    sizes: p.sizes,
-
-    rating: p.rating,
-    reviewsCount: p.reviewsCount,
+    description: p.description,
+    sizes: Array.isArray(p.sizes)
+      ? p.sizes.map((s) => ({
+          label: s.label,
+          stock: s.stock,
+        }))
+      : [],
 
     isActive: p.inStock ?? true,
   };

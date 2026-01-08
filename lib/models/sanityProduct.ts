@@ -5,7 +5,10 @@ export type SanityProduct = {
   slug: string;
   images: any[];
   category?: string;
-  sizes?: string[];
+  sizes?: {
+    label: string;
+    stock: number;
+  }[];
   rating?: number;
   reviewsCount?: number;
   description?: string;
