@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import ProductsGrid from "@/components/products/ProductsGrid";
-import { products } from "@/app/lib/data/products.mock";
+import { products } from "@/lib/data/products.mock";
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();

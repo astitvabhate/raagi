@@ -1,6 +1,6 @@
 import ProductGallery from "@/components/PDP/ProductGallery";
 import ProductInfo from "@/components/PDP/ProductInfo";
-import { products } from "@/app/lib/data/products.mock";
+import { products } from "@/lib/data/products.mock";
 
 type PageProps = {
   params: Promise<{

@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import { Amita, Great_Vibes } from "next/font/google";
 import Footer from "@/components/footer/Footer";
+import Providers from "./Provider/provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,9 +46,9 @@ export default function RootLayout({
     <html lang="en">
       <Navbar />
       <body
-        className={`${amita.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+        className={`${amita.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Providers />
+        {children}  
         <Footer />
       </body>
     </html>

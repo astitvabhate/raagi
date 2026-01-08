@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Product } from "@/app/lib/models/product";
+import { Product } from "@/lib/models/product";
 import SizeSelector from "./SizeSelector";
 
 type ProductInfoProps = {

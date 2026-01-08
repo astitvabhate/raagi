@@ -1,4 +1,4 @@
-import { Product } from "@/app/lib/models/product";
+import { Product } from "@/lib/models/product";
 import ProductCard from "./ProductCard";
 
 export default function ProductsGrid({

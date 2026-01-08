@@ -8,14 +8,29 @@ import { FaSearch } from "react-icons/fa";
 import { BsPersonFill } from "react-icons/bs";
 import { IoMdCart } from "react-icons/io";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import { useAuth } from "@/lib/auth/useAuth";
+import { supabase } from "@/lib/Supabase/supabaseClient";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(true); 
+  const [darkMode, setDarkMode] = useState(true);
+
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  const handleUserClick = async () => {
+    if (!user) {
+      router.push("/login");
+    } else {
+      await supabase.auth.signOut();
+      router.push("/");
+    }
+  };
 
   useEffect(() => {
     const onScroll = () => {
-      // adjust 80 if needed
       setDarkMode(window.scrollY < 80);
     };
 
@@ -23,6 +38,8 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  if (loading) return null;
 
   return (
     <>
@@ -55,8 +72,18 @@ export default function Navbar() {
             {/* RIGHT */}
             <div className="hidden md:flex gap-8 items-center text-lg">
               <button className="hover:opacity-60 transition"><FaSearch /></button>
-              <button className="hover:opacity-60 transition"><BsPersonFill /></button>
-              <button className="hover:opacity-60 transition"><IoMdCart /></button>
+
+              <button
+                onClick={handleUserClick}
+                className="hover:opacity-60 transition"
+                title={user ? "Logout" : "Login"}
+              >
+                <BsPersonFill />
+              </button>
+
+              <button className="hover:opacity-60 transition">
+                <IoMdCart />
+              </button>
             </div>
 
             {/* MOBILE */}
@@ -67,7 +94,9 @@ export default function Navbar() {
 
               <div className="flex gap-4 items-center">
                 <IoMdCart size={18} />
-                <BsPersonFill size={18} />
+                <button onClick={handleUserClick}>
+                  <BsPersonFill size={18} />
+                </button>
               </div>
             </div>
 
@@ -85,7 +114,6 @@ export default function Navbar() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-0 z-[100] bg-[#f6f4ef] flex flex-col text-black"
           >
-            {/* MOBILE HEADER */}
             <div className="flex items-center justify-between px-6 h-16 border-b border-black/10">
               <span className="text-lg">रागी</span>
               <button onClick={() => setOpen(false)}>
@@ -93,7 +121,6 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* LINKS */}
             <div className="flex flex-col items-center justify-center flex-1 gap-10 text-sm uppercase tracking-[0.35em]">
               {[
                 { label: "Home", href: "/" },

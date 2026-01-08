@@ -1,4 +1,4 @@
-import { Product } from "@/app/lib/models/product";
+import { Product } from "@/lib/models/product";
 import { BsCartPlus  } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
 import Link from "next/link";
