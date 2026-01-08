@@ -1,42 +1,48 @@
+import { sanityClient } from "@/lib/sanity/sanityClient";
+import { PRODUCT_BY_SLUG_QUERY } from "@/lib/sanity/sanityQueries";
+import { mapSanityToProduct } from "@/lib/mappers/productMapper";
+import { notFound } from "next/navigation";
+
 import ProductGallery from "@/components/PDP/ProductGallery";
 import ProductInfo from "@/components/PDP/ProductInfo";
-import { products } from "@/lib/data/products.mock";
+import ProductDescription from "@/components/PDP/ProductDescription";
+import SizeSelector from "@/components/PDP/SizeSelector";
 
-type PageProps = {
-  params: Promise<{
-    slug: string;
-  }>;
-};
-
-export default async function ProductPage({ params }: PageProps) {
-  // 🔑 REQUIRED for sync-dynamic-apis
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
 
-  if (!slug) {
-    return (
-      <div className="py-32 text-center text-sm opacity-60">
-        Invalid product
-      </div>
-    );
-  }
-
-  const product = products.find(
-    (p) => p.slug.toLowerCase() === slug.toLowerCase()
+  const sanityProduct = await sanityClient.fetch(
+    PRODUCT_BY_SLUG_QUERY,
+    { slug }
   );
 
+  if (!sanityProduct) {
+    notFound();
+  }
+
+  const product = mapSanityToProduct(sanityProduct);
+
   if (!product) {
-    return (
-      <div className="py-32 text-center text-sm opacity-60">
-        Product not found
-      </div>
-    );
+    notFound();
   }
 
   return (
-    <section className="py-16">
-      <div className="mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
-        <ProductGallery images={product.images} />
-        <ProductInfo product={product} />
+    <section className="bg-[#faf9f7] pt-24 pb-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 space-y-20">
+
+        {/* TOP: Gallery + Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <ProductGallery images={product.images ?? []} />
+          <ProductInfo product={product} />
+        </div>
+
+        {/* BOTTOM: Description */}
+        <ProductDescription description={product.description} />
+
       </div>
     </section>
   );

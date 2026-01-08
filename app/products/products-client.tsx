@@ -1,12 +1,39 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductsGrid from "@/components/products/ProductsGrid";
-import { products } from "@/lib/data/products.mock";
+import { sanityClient } from "@/lib/sanity/sanityClient";
+import { PRODUCTS_QUERY } from "@/lib/sanity/sanityQueries";
+import { mapSanityToProduct } from "@/lib/mappers/productMapper";
+import { Product } from "@/lib/models/product";
+import { SanityProduct } from "@/lib/models/sanityProduct";
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const sanityProducts: any[] = await sanityClient.fetch(PRODUCTS_QUERY);
+
+        const mappedProducts = sanityProducts
+          .map((p: SanityProduct) => mapSanityToProduct(p))
+          .filter((p): p is Product => p !== null);
+        setProducts(mappedProducts);
+      } catch (err) {
+        console.error("Failed to fetch products", err);
+      } finally { 
+        setLoading(false);
+      }
+    }
+
+    fetchProducts();
+  }, []);
 
   const filteredProducts = category
     ? products.filter(
@@ -14,6 +41,14 @@ export default function ProductsPage() {
           product.category?.toLowerCase() === category.toLowerCase()
       )
     : products;
+
+  if (loading) {
+    return (
+      <section className="py-20 text-center">
+        Loading products…
+      </section>
+    );
+  }
 
   return (
     <section className="bg-[#faf9f7] py-16 md:py-20">
@@ -34,7 +69,7 @@ export default function ProductsPage() {
             )}
           </div>
 
-          {/* Sort (UI only – like reference) */}
+          {/* Sort (UI only) */}
           <div className="flex items-center gap-3 text-sm">
             <span className="text-[#7a3b18]/70">Sort by:</span>
             <select

@@ -1,47 +1,19 @@
-// export type Product = {
-//   id: string;
-//   title: string;
-//   slug: string;
-
-//   images: string[];        // supports hover swap later
-//   price: number;
-//   salePrice?: number;
-
-//   category: string;
-//   tags?: string[];
-
-//   rating?: number;
-//   reviewsCount?: number;
-
-//   isActive: boolean;       // admin control
-//   createdAt: string;
-// };
-
-
 export type Product = {
   id: string;
-
-  title: string;
   slug: string;
-
-  // ✅ Gallery-safe (PDP relies on this)
-  images: string[];
-
+  title: string;
   price: number;
-  salePrice?: number;
 
-  category: string;
+  category?: string;
+  sizes?: {
+  label: string;
+  stock: number;
+  }[];
 
-  // ✅ PDP-safe
-  sizes?: string[];
+
+  image?: any;      // primary image
+  images?: any[];   // gallery images
   description?: string;
 
-  // optional but useful
-  rating?: number;
-  reviewsCount?: number;
-
-  // admin control
-  isActive: boolean;
-
-  createdAt: string;
+  isActive?: boolean;
 };

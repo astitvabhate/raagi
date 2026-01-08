@@ -1,9 +1,13 @@
 "use client";
 
 import { supabase } from "@/lib/Supabase/supabaseClient";
-import { useEffect } from "react";
+import { useEffect, ReactNode } from "react";
 
-export default function Providers() {
+export default function Providers({
+  children,
+}: {
+  children: ReactNode;
+}) {
   useEffect(() => {
     const {
       data: { subscription },
@@ -14,5 +18,5 @@ export default function Providers() {
     return () => subscription.unsubscribe();
   }, []);
 
-  return null;
+  return <>{children}</>;
 }

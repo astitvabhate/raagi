@@ -17,12 +17,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: " Raagi - रागी",
+  title: "Raagi - रागी",
   description: "Welcome to Raagi - Embrace Tradition with Style",
   icons: {
     icon: "/logo/image.png",
-  }
+  },
 };
+
 const amita = Amita({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -39,17 +40,19 @@ const greatVibes = Great_Vibes({
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <Navbar />
       <body
-        className={`${amita.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Providers />
-        {children}  
-        <Footer />
+        className={`${amita.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <Providers>
+          <Navbar />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

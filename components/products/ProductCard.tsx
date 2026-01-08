@@ -1,29 +1,30 @@
 import { Product } from "@/lib/models/product";
-import { BsCartPlus  } from "react-icons/bs";
+import { BsCartPlus } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
 import Link from "next/link";
+import { urlFor } from "@/lib/sanity/sanityImage";
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="group bg-white rounded-xl overflow-hidden border border-black/5 shadow-sm hover:shadow-lg transition">
+    <div className="group overflow-hidden rounded-xl border border-black/5 bg-white shadow-sm transition hover:shadow-lg">
       
       {/* IMAGE */}
       <div className="relative overflow-hidden">
-        <Link href={`/products/${product.id}`}>
-        <img
-          src={product.images[0]}
-          alt={product.title}
-          className="
-            w-full
-            h-[260px]
-            sm:h-[320px]
-            md:h-[420px]
-            object-cover
-            transition-transform
-            duration-[1200ms]
-            group-hover:scale-[1.05]
-          "
-        />
+        <Link href={`/products/${product.slug}`}>
+          <img
+            src={urlFor(product.image).width(600).url()}
+            alt={product.title}
+            className="
+              h-[260px]
+              w-full
+              object-cover
+              transition-transform
+              duration-[1200ms]
+              group-hover:scale-[1.05]
+              sm:h-[320px]
+              md:h-[420px]
+            "
+          />
         </Link>
 
         {/* ADD TO CART */}
@@ -32,16 +33,15 @@ export default function ProductCard({ product }: { product: Product }) {
             absolute
             bottom-4
             right-4
+            flex
             h-10
             w-10
+            items-center
+            justify-center
             rounded-full
             bg-white
             shadow
-            flex
-            items-center
-            justify-center
             transition
-            opacity-100
             md:opacity-0
             md:group-hover:opacity-100
           "
@@ -52,22 +52,24 @@ export default function ProductCard({ product }: { product: Product }) {
       </div>
 
       {/* CONTENT */}
-      <div className="p-4 space-y-1">
+      <div className="space-y-1 p-4">
         
         {/* TITLE */}
-        <h3 className="text-sm leading-snug line-clamp-2">
+        <h3 className="line-clamp-2 text-sm leading-snug">
           {product.title}
         </h3>
 
-        {/* RATING */}
+        {/* RATING (optional, future-proof) */}
         {product.rating && (
           <div className="flex items-center gap-1 text-xs text-[#7a3b18]">
             {Array.from({ length: product.rating }).map((_, i) => (
               <AiFillStar key={i} />
             ))}
-            <span className="text-black/50">
-              ({product.reviewsCount})
-            </span>
+            {product.reviewsCount && (
+              <span className="text-black/50">
+                ({product.reviewsCount})
+              </span>
+            )}
           </div>
         )}
 

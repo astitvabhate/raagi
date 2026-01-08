@@ -1,28 +1,31 @@
-export default function SizeSelector({
-  sizes,
-  onSelect,
-}: {
-  sizes: string[];
-  onSelect: (size: string) => void;
-}) {
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-2">
-        <p className="text-sm">Size</p>
-        <button className="text-xs underline">Size Guide</button>
-      </div>
+"use client";
 
-      <div className="flex gap-2 flex-wrap">
-        {sizes.map((size) => (
-          <button
-            key={size}
-            onClick={() => onSelect(size)}
-            className="border px-4 py-2 text-xs hover:border-black"
-          >
-            {size}
-          </button>
-        ))}
-      </div>
+import { useState } from "react";
+
+export default function ProductDescription({
+  description,
+}: {
+  description?: string;
+}) {
+  const [open, setOpen] = useState(false);
+
+  if (!description) return null;
+
+  return (
+    <div className="border-t border-black/10 pt-6">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between text-sm uppercase tracking-widest"
+      >
+        <span>Product Description</span>
+        <span className="text-xl">{open ? "−" : "+"}</span>
+      </button>
+
+      {open && (
+        <p className="mt-4 text-sm leading-relaxed text-black/70">
+          {description}
+        </p>
+      )}
     </div>
   );
 }
