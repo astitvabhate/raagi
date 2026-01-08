@@ -19,7 +19,7 @@ export default function ProductsPage() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const sanityProducts: any[] = await sanityClient.fetch(PRODUCTS_QUERY);
+        const sanityProducts: SanityProduct[] = await sanityClient.fetch(PRODUCTS_QUERY);
 
         const mappedProducts = sanityProducts
           .map((p: SanityProduct) => mapSanityToProduct(p))
